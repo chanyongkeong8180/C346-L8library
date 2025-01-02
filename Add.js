@@ -25,9 +25,9 @@ const Add = ({navigation}) => {
                        keyboardType="number-pad"
                        onChangeText={(text) => setCopies(text)}/>
             </ScrollView>
-            <Button title="Add item" color="green"
+            <Button title="Add Book" color="green"
                     onPress={()=> {
-                        let item = {title:title, isbn:ISBN, copies:copies, image:image};
+                        let item = {title:title, isbn:ISBN, image:image, copies:copies};
                         datasource.push(item);
                         navigation.navigate('Home');
                     }
@@ -42,13 +42,9 @@ export default Add;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'brown'
-    },
-    column: {
         flexDirection: 'column',
-        backgroundColor: 'brown',
         borderWidth: 1,
-        margin: 10
+        backgroundColor: 'brown'
     },
     textStyles: {
         font: 15,
