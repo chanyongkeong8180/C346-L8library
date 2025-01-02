@@ -4,7 +4,7 @@ import {datasource} from "./Data.js";
 
 const Add = ({navigation}) => {
     const [title, setTitle] = useState('');
-    const [ISBN, setISBN] = useState('0');
+    const [ISBN, setISBN] = useState('0123456789123');
     const [image, setImage] = useState('');
     const [copies, setCopies] = useState('0');
     return (
@@ -15,6 +15,7 @@ const Add = ({navigation}) => {
                        onChangeText={(text) => setTitle(text)}/>
             <Text style={styles.textStyles}>ISBN:</Text>
             <TextInput style={[styles.inputStyles]}
+                       maxLength={13}
                        keyboardType="number-pad"
                        onChangeText={(text) => setISBN(text)}/>
             <Text style={styles.textStyles}>Image URL:</Text>

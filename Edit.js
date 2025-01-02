@@ -17,6 +17,7 @@ const Edit = ({navigation, route}) => {
                 <Text style={styles.textStyles}>ISBN:</Text>
                 <TextInput style={[styles.inputStyles]}
                            value={ISBN}
+                           maxLength={13}
                            keyboardType="number-pad"
                            onChangeText={(text) => setISBN(text)}/>
                 <Text style={styles.textStyles}>Image URL:</Text>
