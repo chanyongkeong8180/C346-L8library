@@ -1,13 +1,31 @@
+import React, {useState} from 'react';
 import {View, StatusBar, TouchableOpacity, FlatList, Text, Image, StyleSheet, } from 'react-native';
 import {datasource} from './Data.js';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const Home = ({navigation}) => {
+    const [books, setBooks] = useState([]);
+
+    const getBooks = async () => {
+        let bookStr = await AsyncStorage.getItem("bookData");
+        if (bookStr!==null) {
+            let jsondata = (JSON.parse(bookStr));
+            setBooks(jsondata);
+        }
+        else {
+            setBooks(datasource);
+        }
+    };
+
+    getBooks();
+
     const renderItem = ({item, index}) => {
         return (
             <TouchableOpacity
                 style={styles.column}
                 onPress={()=> {
-                    navigation.navigate('Edit',
-                        {index:index, title:item.title, isbn:item.isbn, copies:item.copies, image:item.image});
+                    let bookStr = JSON.stringify(books);
+                    navigation.navigate('Edit', {dataString:bookStr, index:index, title:item.title, isbn:item.isbn, copies:item.copies, image:item.image});
                 }}
             >
                 <Text style={styles.textStyles}>{item.title}</Text>
@@ -22,10 +40,13 @@ const Home = ({navigation}) => {
           <StatusBar/>
           <TouchableOpacity
               style={styles.opacityStyle}
-              onPress={() =>{navigation.navigate('Add')}}>
+              onPress={() =>{
+                  let bookStr = JSON.stringify(books);
+                  navigation.navigate('Add', {dataString:bookStr});
+              }}>
             <Text style={[styles.textStyles, {textAlign: 'center'}]}>New Book</Text>
           </TouchableOpacity>
-          <FlatList data={datasource} renderItem={renderItem}/>
+          <FlatList data={books} renderItem={renderItem}/>
         </View>
       );
 }

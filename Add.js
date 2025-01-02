@@ -1,37 +1,64 @@
 import {useState} from 'react';
-import {View, ScrollView, Text, TextInput, Button, StyleSheet} from 'react-native';
-import {datasource} from "./Data.js";
+import {View, ScrollView, Text, TextInput, Button, Alert, StyleSheet} from 'react-native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Add = ({navigation}) => {
+const Add = ({navigation, route}) => {
     const [title, setTitle] = useState('');
-    const [ISBN, setISBN] = useState('0');
+    const [ISBN, setISBN] = useState('');
     const [image, setImage] = useState('');
-    const [copies, setCopies] = useState('0');
+    const [copies, setCopies] = useState(0);
+
+    const setBooks = async (value) => {
+        AsyncStorage.setItem("bookData", value);
+        navigation.navigate('Home');
+    }
     return (
         <View style={styles.container}>
             <ScrollView>
             <Text style={styles.textStyles}>Title:</Text>
-            <TextInput style={styles.inputStyles}
-                       onChangeText={(text) => setTitle(text)}/>
+            <TextInput
+                style={styles.inputStyles}
+                onChangeText={(text) => setTitle(text)}
+            />
             <Text style={styles.textStyles}>ISBN:</Text>
-            <TextInput style={[styles.inputStyles]}
-                       keyboardType="number-pad"
-                       onChangeText={(text) => setISBN(text)}/>
+            <TextInput
+                style={[styles.inputStyles]}
+                maxLength={13}
+                keyboardType="number-pad"
+                onChangeText={(text) => setISBN(text)}
+            />
             <Text style={styles.textStyles}>Image URL:</Text>
-            <TextInput style={[styles.inputStyles]}
-                       onChangeText={(text) => setImage(text)}/>
+            <TextInput
+                style={[styles.inputStyles]}
+                onChangeText={(text) => setImage(text)}
+            />
             <Text style={styles.textStyles}>Copies Owned:</Text>
-            <TextInput style={[styles.inputStyles]}
-                       keyboardType="number-pad"
-                       onChangeText={(text) => setCopies(text)}/>
+            <TextInput
+                style={[styles.inputStyles]}
+                keyboardType="number-pad"
+                value={copies.toString()}
+                onChangeText={(text) => setCopies(parseInt(text) || 0)}
+            />
             </ScrollView>
             <Button title="Add Book" color="green"
                     onPress={()=> {
+                        let books =JSON.parse(route.params.dataString);
                         let item = {title:title, isbn:ISBN, image:image, copies:copies};
-                        datasource.push(item);
-                        navigation.navigate('Home');
-                    }
-                    }
+                        if (title.trim() === '') {
+                            Alert.alert("Warning!", "Title must not be empty.");
+                        }
+                        else if (ISBN.length !== 13) {
+                            Alert.alert("Invalid ISBN!", "ISBN requires 13 characters.");
+                        }
+                        else if (image.trim() === '') {
+                            Alert.alert("Warning!", "Image URL must not be empty.");
+                        }
+                        if (title.trim() !== '' && ISBN.length === 13 && image.trim() !== '') {
+                            books.push(item);
+                            let stringdata = JSON.stringify(books);
+                            setBooks(stringdata);
+                        }
+                    }}
             />
         </View>
     );
