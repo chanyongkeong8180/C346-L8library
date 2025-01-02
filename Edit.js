@@ -40,7 +40,7 @@ const Edit = ({navigation, route}) => {
             />
             <Button title="Delete Book" color="red"
                     onPress={()=> {
-                        Alert.alert("Warning!","Are you sure you want to delete" +
+                        Alert.alert("Warning!","Are you sure you want to delete " +
                             title + " from the library?",
                             [{text: "Yes", onPress: () => {
                                 datasource.splice(route.params.index, 1);
