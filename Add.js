@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import {View, ScrollView, Text, TextInput, Button, StyleSheet} from 'react-native';
 import {datasource} from "./Data.js";
 
 const Add = ({navigation}) => {
@@ -9,20 +9,27 @@ const Add = ({navigation}) => {
     const [copies, setCopies] = useState('0');
     return (
         <View style={styles.container}>
+            <ScrollView>
             <Text style={styles.textStyles}>Title:</Text>
             <TextInput style={styles.inputStyles}
                        onChangeText={(text) => setTitle(text)}/>
             <Text style={styles.textStyles}>ISBN:</Text>
             <TextInput style={[styles.inputStyles]}
+                       keyboardType="number-pad"
                        onChangeText={(text) => setISBN(text)}/>
             <Text style={styles.textStyles}>Image URL:</Text>
             <TextInput style={[styles.inputStyles]}
                        onChangeText={(text) => setImage(text)}/>
             <Text style={styles.textStyles}>Copies Owned:</Text>
             <TextInput style={[styles.inputStyles]}
+                       keyboardType="number-pad"
                        onChangeText={(text) => setCopies(text)}/>
+            </ScrollView>
             <Button title="Add item" color="green"
                     onPress={()=> {
+                        let item = {title:title, isbn:ISBN, copies:copies, image:image};
+                        datasource.push(item);
+                        navigation.navigate('Home');
                     }
                     }
             />

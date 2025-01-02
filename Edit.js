@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import {View, ScrollView, Text, TextInput, Button, StyleSheet} from 'react-native';
 import {datasource} from "./Data.js";
 
 const Edit = ({navigation}) => {
@@ -9,18 +9,22 @@ const Edit = ({navigation}) => {
     const [copies, setCopies] = useState('0');
     return (
         <View style={styles.container}>
-            <Text style={styles.textStyles}>Title:</Text>
-            <TextInput style={styles.inputStyles}
-                       onChangeText={(text) => setTitle(text)}/>
-            <Text style={styles.textStyles}>ISBN:</Text>
-            <TextInput style={[styles.inputStyles]}
-                       onChangeText={(text) => setISBN(text)}/>
-            <Text style={styles.textStyles}>Image URL:</Text>
-            <TextInput style={[styles.inputStyles]}
-                       onChangeText={(text) => setImage(text)}/>
-            <Text style={styles.textStyles}>Copies Owned:</Text>
-            <TextInput style={[styles.inputStyles]}
-                       onChangeText={(text) => setCopies(text)}/>
+            <ScrollView>
+                <Text style={styles.textStyles}>Title:</Text>
+                <TextInput style={styles.inputStyles}
+                           onChangeText={(text) => setTitle(text)}/>
+                <Text style={styles.textStyles}>ISBN:</Text>
+                <TextInput style={[styles.inputStyles]}
+                           keyboardType="number-pad"
+                           onChangeText={(text) => setISBN(text)}/>
+                <Text style={styles.textStyles}>Image URL:</Text>
+                <TextInput style={[styles.inputStyles]}
+                           onChangeText={(text) => setImage(text)}/>
+                <Text style={styles.textStyles}>Copies Owned:</Text>
+                <TextInput style={[styles.inputStyles]}
+                           keyboardType="number-pad"
+                           onChangeText={(text) => setCopies(text)}/>
+            </ScrollView>
             <Button title="Edit item" color="green"
                     onPress={()=> {
                     }

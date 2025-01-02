@@ -22,7 +22,7 @@ const Home = ({navigation}) => {
           <StatusBar/>
           <TouchableOpacity
               style={styles.opacityStyle}
-              onPress={() =>{navigation.navigate("Add")}}>
+              onPress={() =>{navigation.navigate('Add')}}>
             <Text style={[styles.textStyles, {textAlign: 'center'}]}>New Book</Text>
           </TouchableOpacity>
           <FlatList data={datasource} renderItem={renderItem}/>
